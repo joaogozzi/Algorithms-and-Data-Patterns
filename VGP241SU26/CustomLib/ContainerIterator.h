@@ -21,8 +21,8 @@ public:
 public:
 	ContainerIterator(T* ptr) : mPtr(ptr) {}
 
-	T& operator*() {return *mPtr}
-	T* operator->() {return mPtr}
+	T& operator*() { return *mPtr; }
+	T* operator->() { return mPtr; }
 
 	// ++iter
 	ContainerIterator& operator++() { ++mPtr; return *this; }
@@ -42,12 +42,12 @@ public:
 
 	difference_type operator-(const ContainerIterator& rhs) const { return mPtr - rhs.mPtr; }
 
-	bool operator==(const ContainerIterator& rhs) const { return mptr == rhs.mPtr; }
-	bool operator!=(const ContainerIterator& rhs) const { return mptr != rhs.mPtr; }
-	bool operator<(const ContainerIterator& rhs) const { return mptr < rhs.mPtr; }
-	bool operator>(const ContainerIterator& rhs) const { return mptr > rhs.mPtr; }
-	bool operator<=(const ContainerIterator& rhs) const { return mptr <= rhs.mPtr; }
-	bool operator>=(const ContainerIterator& rhs) const { return mptr >= rhs.mPtr; }
+	bool operator==(const ContainerIterator& rhs) const { return mPtr == rhs.mPtr; }
+	bool operator!=(const ContainerIterator& rhs) const { return mPtr != rhs.mPtr; }
+	bool operator<(const ContainerIterator& rhs) const { return mPtr < rhs.mPtr; }
+	bool operator>(const ContainerIterator& rhs) const { return mPtr > rhs.mPtr; }
+	bool operator<=(const ContainerIterator& rhs) const { return mPtr <= rhs.mPtr; }
+	bool operator>=(const ContainerIterator& rhs) const { return mPtr >= rhs.mPtr; }
 
 private:
 	T* mPtr = nullptr;
