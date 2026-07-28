@@ -86,7 +86,7 @@ public:
 			std::cout << "ERROR: Node has already been added!!!\n";
 		}
 
-		int maxDim = 2; // (x, y)
+		const int maxDim = 2; // (x, y)
 		int nextDim = (dim + 1) % maxDim;
 
 		// compare based on current dimension
@@ -96,7 +96,7 @@ public:
 			// if the new data.x is less than prevNode->data.x, data is inserted to the left
 			if (data.x < prevNode->data.x)
 			{
-				prevNode->left == Insert(data, prevNode->left, nextDim);
+				prevNode->left = Insert(data, prevNode->left, nextDim);
 			}
 			else
 			{
@@ -282,14 +282,103 @@ public:
 		}
 	}
 
+	int DistanceSquared(const Vector2& a, const Vector2& b)
+	{
+		Vector2 diff;
+
+		diff.x = a.x - b.x;
+		diff.y = a.y - b.y;
+
+		return (diff.x * diff.x) + (diff.y * diff.y);
+	}
+
+	KDNode* Closest(KDNode* a, KDNode* b, const Vector2& v)
+	{
+		if (a == nullptr)
+			return b;
+
+		if (b == nullptr)
+			return a;
+
+		int aD = DistanceSquared(a->data, v);
+		int bD = DistanceSquared(b->data, v);
+
+		if (aD < bD)
+			return a;
+
+		return b;
+	}
+
+	// Find the node closest to the point
+	KDNode* NearestNeighbor(const Vector2& v, KDNode* node, int dim)
+	{
+		if (node == nullptr)
+			return nullptr;
+
+		KDNode* nextBranch = nullptr;
+		KDNode* otherBranch = nullptr;
+
+		int nextDim = (dim + 1) % 2;
+
+		if (dim == 0) // on x dimension
+		{
+			if (v.x < node->data.x)
+			{
+				nextBranch = node->left;
+				otherBranch = node->right;
+			}
+			else
+			{
+				nextBranch = node->right;
+				otherBranch = node->left;
+			}
+		}
+		else // compare y
+		{
+			if (v.y < node->data.y)
+			{
+				nextBranch = node->left;
+				otherBranch = node->right;
+			}
+			else
+			{
+				nextBranch = node->right;
+				otherBranch = node->left;
+			}
+		}
+
+		KDNode* temp = NearestNeighbor(v, nextBranch, nextDim);
+		KDNode* best = Closest(temp, node, v);
+
+		float distSqr = DistanceSquared(best->data, v);
+		float planeDist = 0.0f;
+
+		if (dim == 0)
+		{
+			planeDist = v.x - node->data.x;
+		}
+		else
+		{
+			planeDist = v.y - node->data.y;
+		}
+
+		if (distSqr >= planeDist * planeDist)
+		{
+			temp = NearestNeighbor(v, otherBranch, nextDim);
+			best = Closest(temp, best, v);
+		}
+
+		return best;
+	}
+
 	void Exercise2KDTree()
 	{
 		int maxNumbers = 20;
 		int min = 1;
 		int max = 100;
 		KDNode* root = nullptr;
+		Vector2 deleteDataVal;
 		Vector2 data;
-		Vector2 deleteDataVal;;
 
 		for (int i = 0; i < maxNumbers; ++i)
 		{
@@ -340,6 +429,19 @@ public:
 		PrintRange(minRange, maxRange, root, 0);
 
 		std::cout << "\nNumIterations: " << gIterationCount << "\n";
+
+		Vector2 target;
+
+		std::cout << "\n\nNearest Neighbor\n";
+		std::cout << "Enter X: ";
+		std::cin >> target.x;
+
+		std::cout << "Enter Y: ";
+		std::cin >> target.y;
+
+		KDNode* nearestNeighbor = NearestNeighbor(target, root, 0);
+
+		std::cout << "Closest Point (" << nearestNeighbor->data.x << ", " << nearestNeighbor->data.y << ")\n";
 
 		DeleteKDTree(root);
 	}

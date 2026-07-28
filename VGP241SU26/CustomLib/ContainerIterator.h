@@ -21,8 +21,8 @@ public:
 public:
 	ContainerIterator(T* ptr) : mPtr(ptr) {}
 
-	T& operator*() { return *mPtr; }
-	T* operator->() { return mPtr; }
+	T& operator*() const { return *mPtr; }
+	T* operator->() const { return mPtr; }
 
 	// ++iter
 	ContainerIterator& operator++() { ++mPtr; return *this; }
