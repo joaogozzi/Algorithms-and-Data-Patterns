@@ -30,8 +30,6 @@ int main()
 	std::cout << "\nHealth pickups within 50 units\n";
 	manager.ObtainPickupsInRange(player, 50.0f, PickupType::Health);
 
-
-
 	manager.Terminate();
 
 	return 0;
