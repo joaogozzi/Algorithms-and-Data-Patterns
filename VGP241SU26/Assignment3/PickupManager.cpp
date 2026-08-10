@@ -3,16 +3,14 @@
 
 void PickupManager::Initialize(int size)
 {
-	mPickups.Resize(size);
+	mPickups.Reserve(size);
 }
 
 void PickupManager::AddItem(PickupType pickupType, const Vector3& pos)
 {
 	mPickups.PushBack(PickUp{ pickupType, pos });
 
-	PickUp item = mPickups[mPickups.Size() - 1];
-
-	mTree.AddItem(&item.mPosition.x, &item);
+	mTree.AddItem(&mPickups[mPickups.Size() - 1].mPosition.x, &mPickups[mPickups.Size() - 1]);
 }
 
 const PickUp* PickupManager::GetClosestPickup(const Vector3& pos)
@@ -20,18 +18,37 @@ const PickUp* PickupManager::GetClosestPickup(const Vector3& pos)
 	return (PickUp*)mTree.FindNearest(&pos.x);
 }
 
-void PickupManager::ObtainPickupsInRange(const Vector3& pos, float range, PickupType pickupType)
+void PickupManager::ObtainPickupsInRangeByInvalid(const Vector3& pos, Vector3 range)
 {
 	Vector<const void*> pickups;
 
-	float minRange = pos.x - range;
-	float maxRange = pos.x + range;
+	Vector3 minRange = pos - range;
+	Vector3 maxRange = pos + range;
 
-	PickUp::FilterByType filter;
+	PickUp::FilterByInvalid	 filter;
 
-	filter.type = pickupType;
+	mTree.FindInRange(pickups, &minRange.x, &maxRange.x, filter);
 
-	mTree.FindInRange(pickups, &minRange, &maxRange, filter);
+	std::cout << "Size: " << pickups.Size() << "\n";
+
+	for (Vector<const void*>::Iterator iter = pickups.Begin(); iter != pickups.End(); ++iter)
+	{
+		const PickUp* pickup = (const PickUp*)(*iter);
+
+		std::cout << pickup->mName << " (" << pickup->mPosition.x << ", " << pickup->mPosition.y << ", " << pickup->mPosition.z << ")\n";
+	}
+}
+
+void PickupManager::ObtainPickupsInRangeByHealth(const Vector3& pos, Vector3 range)
+{
+	Vector<const void*> pickups;
+
+	Vector3 minRange = pos - range;
+	Vector3 maxRange = pos + range;
+
+	PickUp::FilterByHealth filter;
+
+	mTree.FindInRange(pickups, &minRange.x, &maxRange.x, filter);
 
 	std::cout << "Size: " << pickups.Size() << "\n";
 

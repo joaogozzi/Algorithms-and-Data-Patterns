@@ -10,7 +10,8 @@ public:
 	void Initialize(int size);
 	void AddItem(PickupType pickupType, const Vector3& pos);
 	const PickUp* GetClosestPickup(const Vector3& pos);
-	void ObtainPickupsInRange(const Vector3& pos, float range, PickupType pickupType);
+	void ObtainPickupsInRangeByInvalid(const Vector3& pos, Vector3 range);
+	void ObtainPickupsInRangeByHealth(const Vector3& pos, Vector3 range);
 	void BuildTree();
 	void Terminate();
 

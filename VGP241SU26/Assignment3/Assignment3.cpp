@@ -13,22 +13,22 @@ int main()
 
 		Vector3 pos;
 
-		pos.x = (float)(rand() % 501);
-		pos.y = (float)(rand() % 501);
-		pos.z = (float)(rand() % 501);
+		pos.x = (float)(rand() % 101);
+		pos.y = (float)(rand() % 21);
+		pos.z = (float)(rand() % 101);
 
 		manager.AddItem(type, pos);
 	}
 
 	manager.BuildTree();
 
-	Vector3 player = { 250, 250, 250 };
+	Vector3 player = { 50, 25, 50 };
 
-	std::cout << "Pickups within 10 units\n";
-	manager.ObtainPickupsInRange(player, 10.0f, PickupType::Invalid);
+	std::cout << "Invalid pickups within 10 units\n";
+	manager.ObtainPickupsInRangeByInvalid(player, Vector3{ 10.0f, 10.0f, 10.0f });
 
 	std::cout << "\nHealth pickups within 50 units\n";
-	manager.ObtainPickupsInRange(player, 50.0f, PickupType::Health);
+	manager.ObtainPickupsInRangeByHealth(player, Vector3{ 50.0f, 50.0f, 50.0f });
 
 	manager.Terminate();
 

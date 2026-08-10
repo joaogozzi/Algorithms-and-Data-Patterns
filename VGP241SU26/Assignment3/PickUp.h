@@ -17,13 +17,21 @@ enum PickupType
 class PickUp
 {
 public:
-	struct FilterByType
+	struct FilterByInvalid
 	{
-		PickupType type;
 		bool operator()(const void* data)
 		{
 			const PickUp* item = (const PickUp*)data;
-			return item->mType == type;
+			return item->mType == PickupType::Invalid;
+		}
+	};
+
+	struct FilterByHealth
+	{
+		bool operator()(const void* data)
+		{
+			const PickUp* item = (const PickUp*)data;
+			return item->mType == PickupType::Health;
 		}
 	};
 
