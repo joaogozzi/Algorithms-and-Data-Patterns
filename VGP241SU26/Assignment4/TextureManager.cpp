@@ -1,10 +1,6 @@
 #include "TextureManager.h"
 #include <Global.h>
 
-TextureManager::TextureManager()
-{
-}
-
 TextureManager& TextureManager::Instance()
 {
 	static TextureManager instance;
@@ -15,7 +11,17 @@ std::size_t TextureManager::LoadTexture(const std::string& filePath)
 {
 	std::size_t uniqueId = Global::HashFunction(filePath);
 
-	mTextures[uniqueId] = filePath;
+	Texture newTex(filePath);
+
+	if (!mTextures.Find(uniqueId, newTex))
+		mTextures.Insert(uniqueId, newTex);
+	else
+		mTextures[uniqueId] = filePath;
 
 	return uniqueId;
+}
+
+Texture& TextureManager::GetTexture(size_t textureId)
+{
+	return mTextures[textureId];
 }

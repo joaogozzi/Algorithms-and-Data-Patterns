@@ -7,7 +7,7 @@ public:
 	Texture(const std::string& filePath);
 	Texture();
 
-	void Print();
+	void Print() const;
 private:
 	std::string mFilePath;
 };

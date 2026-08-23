@@ -6,8 +6,6 @@
 class TextureManager
 {
 public:
-    TextureManager();
-
     TextureManager(const TextureManager&) = delete;
     TextureManager& operator=(const TextureManager&) = delete;
 
@@ -15,8 +13,10 @@ public:
 
     std::size_t LoadTexture(const std::string& filePath);
 
+    Texture& GetTexture(size_t textureId);
+
 private:
-    ~TextureManager() = default;
+    TextureManager() = default;
 
     UnorderedMap<std::size_t, Texture> mTextures;
 };

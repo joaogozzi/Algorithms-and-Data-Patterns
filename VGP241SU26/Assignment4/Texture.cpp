@@ -8,7 +8,7 @@ Texture::Texture(const std::string& filePath)
 Texture::Texture()
 {}
 
-void Texture::Print()
+void Texture::Print() const
 {
 	std::cout << "Rendering <" << mFilePath << ">\n";
 }
