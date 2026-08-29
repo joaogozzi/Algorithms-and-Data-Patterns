@@ -2,6 +2,19 @@
 #include "Inventory.h"
 #include <time.h>
 
+void ClearConsole()
+{
+	std::system("cls");
+}
+
+void WaitForEnter()
+{
+	std::cout << "\n" << "Press ENTER to continue" << "\n";
+
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	std::cin.get();
+}
+
 int main()
 {
 	srand(time(0));
@@ -40,6 +53,8 @@ int main()
 	std::cout << "==================== INITIAL INVENTORY ====================\n";
 	inventory.PrintKeys();
 
+	WaitForEnter();
+
 	int doorsAttempted = 0;
 	int doorsUnlocked = 0;
 
@@ -47,6 +62,8 @@ int main()
 
 	while (gameRunning)
 	{
+		//ClearConsole();
+
 		std::cout << "\n==================== PLAYER ACTION ====================\n";
 		std::cout << "1 - Open Door\n";
 		std::cout << "2 - Pick Up Key\n";
@@ -104,15 +121,18 @@ int main()
 			break;
 		}
 		}
+
+		WaitForEnter();
 	}
 
-	std::cout << "\n==================== FINAL INVENTORY ====================\n";
+	system("cls");
+
+	std::cout << "\n==================== GAMEOVER ====================\n";
 
 	inventory.PrintKeys();
 
 	std::cout << "\nTotal doors unlocked: " << doorsUnlocked << "\n";
 	std::cout << "Doors attempted without the key: " << doorsAttempted - doorsUnlocked << "\n";
-	std::cout << "\nGame Over!\n";
 
 	return 0;
 }

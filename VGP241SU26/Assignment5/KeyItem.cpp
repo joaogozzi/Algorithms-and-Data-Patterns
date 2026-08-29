@@ -28,5 +28,5 @@ int KeyItem::GetCount() const
 
 void KeyItem::Print()
 {
-	std::cout << "Name: " << mName << " Count: " << mCount << "\n";
+	std::cout << mName << ": " << mCount << "\n";
 }
