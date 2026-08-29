@@ -1,8 +1,11 @@
 #include <iostream>
 #include "Inventory.h"
+#include <time.h>
 
 int main()
 {
+	srand(time(0));
+
 	Inventory& inventory = Inventory::GetInstance();
 
 	Vector<std::string> mKeyNames;
@@ -31,7 +34,6 @@ int main()
 	for (int i = 0; i < 100; ++i)
 	{
 		int randomIndex = rand() % mKeyNames.Size();
-
 		inventory.PickupKey(mKeyNames[randomIndex], 1);
 	}
 
